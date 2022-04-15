@@ -1,6 +1,7 @@
 import flask
-from flask import Flask, redirect, render_template, request, flash, url_for
+from flask import Flask, redirect, render_template, request, url_for, send_from_directory
 from werkzeug.utils import secure_filename
+from lib.utils import *
 import os
 
 UPLOAD_FOLDER = "raw/"
@@ -25,12 +26,14 @@ def process_file():
         if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect('/success') 
+            file_to_upper(filename)
+            return redirect(f"download-file/{filename}")
+            # return redirect('download-button')
     return redirect('/')
 
-@app.route("/success")
-def success():
-    return render_template("success.html")
+@app.route("/download-file/<filename>")
+def download_file(filename):
+    return send_from_directory("processed", filename)
 
 @app.route("/fail-input")
 def fail():
