@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <h1>Upload a File to Convert it to uppercase</h1>
+    <form name="file_form" id="file_form" autofocus action="/process-file" method=post>
+        <input name="file_input" id="file_input" type="file"><br>
+        <input type="submit" value="Upload">
+    </form>
+{% endblock body %}
